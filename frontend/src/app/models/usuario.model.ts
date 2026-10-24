@@ -66,3 +66,4 @@ export interface UsuarioSesion {
   iat?: number;            // Issued At (timestamp emisión)
   exp?: number;            // Expiration (timestamp vencimiento)
 }
+

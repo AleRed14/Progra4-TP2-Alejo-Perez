@@ -60,3 +60,4 @@ export interface RespuestaPaginada<T> {
   limit: number;
   offset: number;
 }
+

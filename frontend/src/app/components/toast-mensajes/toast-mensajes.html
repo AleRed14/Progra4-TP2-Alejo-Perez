@@ -1,0 +1,68 @@
+<!-- Contenedor flotante de Toasts -->
+<aside class="toast-container" aria-label="Notificaciones del sistema">
+  @for (toast of notificacionService.toasts(); track toast.id) {
+    <div
+      class="toast-item"
+      [class.toast-exito]="toast.tipo === 'exito'"
+      [class.toast-error]="toast.tipo === 'error'"
+      [class.toast-advertencia]="toast.tipo === 'advertencia'"
+      [class.toast-info]="toast.tipo === 'info'"
+      role="alert"
+      aria-live="polite"
+    >
+      <div class="toast-icon" aria-hidden="true">
+        @switch (toast.tipo) {
+          @case ('exito') { <span>🐾</span> }
+          @case ('error') { <span>⚠️</span> }
+          @case ('advertencia') { <span>⚡</span> }
+          @default { <span>ℹ️</span> }
+        }
+      </div>
+
+      <div class="toast-content">
+        <p class="toast-mensaje">{{ toast.mensaje }}</p>
+      </div>
+
+      <button
+        type="button"
+        class="toast-close-btn"
+        (click)="notificacionService.removerToast(toast.id)"
+        aria-label="Cerrar notificación"
+      >
+        &times;
+      </button>
+    </div>
+  }
+</aside>
+
+<!-- Modal accesible de confirmación (Reemplazo de window.confirm) -->
+@if (notificacionService.confirmacionActiva(); as dialogo) {
+  <div class="modal-backdrop" role="dialog" aria-modal="true" [attr.aria-labelledby]="'modal-titulo'">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h3 id="modal-titulo" class="modal-titulo">{{ dialogo.titulo }}</h3>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-mensaje">{{ dialogo.mensaje }}</p>
+      </div>
+
+      <div class="modal-actions">
+        <button
+          type="button"
+          class="btn btn-outline btn-sm"
+          (click)="notificacionService.responderConfirmacion(false)"
+        >
+          {{ dialogo.textoCancelar || 'Cancelar' }}
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger btn-sm"
+          (click)="notificacionService.responderConfirmacion(true)"
+        >
+          {{ dialogo.textoConfirmar || 'Confirmar' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
