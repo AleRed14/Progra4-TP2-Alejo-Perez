@@ -9,3 +9,4 @@ import { NotificacionService } from '../../services/notificacion.service';
 export class ToastMensajesComponent {
   protected readonly notificacionService = inject(NotificacionService);
 }
+
