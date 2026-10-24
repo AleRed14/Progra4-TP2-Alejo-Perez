@@ -93,3 +93,4 @@ export function simularRegistroMock(dto: RegistroUsuarioDto): Observable<Respues
     usuario: usuarioCreado,
   }).pipe(delay(350));
 }
+
