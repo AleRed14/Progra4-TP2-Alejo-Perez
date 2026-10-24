@@ -1,0 +1,73 @@
+<header class="navbar-header">
+  <div class="container navbar-container">
+    <!-- Logotipo y Nombre del Sistema -->
+    <a routerLink="/" class="navbar-brand" aria-label="Ir al inicio de Patitas">
+      <span class="brand-icon" aria-hidden="true">🐾</span>
+      <span class="brand-text">Patitas</span>
+    </a>
+
+    <!-- Enlaces de Navegación Reactivos -->
+    <nav class="navbar-nav" aria-label="Navegación principal">
+      @if (authService.estaAutenticado(); as aut) {
+        <!-- Rutas para usuarios conectados -->
+        <a
+          routerLink="/publicaciones"
+          routerLinkActive="active"
+          class="nav-link"
+        >
+          <span>Feed de Mascotas</span>
+        </a>
+
+        <a
+          routerLink="/mi-perfil"
+          routerLinkActive="active"
+          class="nav-link"
+        >
+          <span>Mi Perfil</span>
+        </a>
+
+        <!-- Chip de Administrador (si corresponde) -->
+        @if (authService.esAdmin()) {
+          <span class="badge badge-admin" title="Tenés permisos de administrador">
+            Admin 👑
+          </span>
+        }
+
+        <!-- Información de Usuario & Botón Salir -->
+        <div class="user-menu">
+          <div class="user-pill" title="Usuario conectado">
+            <span class="user-avatar" aria-hidden="true">🐶</span>
+            <span class="user-name">{{ authService.usuarioActual()?.nombreUsuario }}</span>
+          </div>
+
+          <button
+            type="button"
+            class="btn btn-outline btn-sm btn-logout"
+            (click)="cerrarSesion()"
+            aria-label="Cerrar sesión"
+          >
+            Salir
+          </button>
+        </div>
+      } @else {
+        <!-- Rutas públicas para invitados -->
+        <a
+          routerLink="/login"
+          routerLinkActive="active"
+          class="nav-link"
+        >
+          Iniciar Sesión
+        </a>
+
+        <a
+          routerLink="/registro"
+          routerLinkActive="active"
+          class="btn btn-primary btn-sm"
+        >
+          Registrarse
+        </a>
+      }
+    </nav>
+  </div>
+</header>
+

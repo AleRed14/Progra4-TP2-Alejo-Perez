@@ -1,0 +1,89 @@
+.registro-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.file-input {
+  padding: 0.45rem 0.6rem;
+  font-size: 0.88rem;
+  background-color: var(--color-surface-muted);
+}
+
+.admin-role-box {
+  background-color: #faf5ff;
+  border: 1px dashed #d8b4fe;
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  margin-block: 0.5rem;
+}
+
+/* Guía de checklist de contraseña */
+.password-checklist {
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.1rem;
+  margin-block: 0.5rem 1rem;
+}
+
+.checklist-title {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-muted);
+  margin-bottom: 0.4rem;
+}
+
+.checklist-items {
+  list-style: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem 0.75rem;
+}
+
+.checklist-items li {
+  font-size: 0.8rem;
+  color: var(--color-text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color var(--transition-fast);
+}
+
+.check-icon {
+  font-weight: 800;
+  font-size: 0.9rem;
+}
+
+.checklist-items li.item-ok {
+  color: var(--color-success);
+  font-weight: 600;
+}
+
+.checklist-items li.item-ok .check-icon {
+  color: var(--color-success);
+}
+
+.form-actions {
+  margin-top: 0.75rem;
+}
+
+/* Responsive para dispositivos móviles */
+@media (max-width: 640px) {
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .checklist-items {
+    grid-template-columns: 1fr;
+  }
+}
+

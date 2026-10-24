@@ -1,0 +1,195 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="registro-form" novalidate>
+  <!-- Fila: Nombre y Apellido -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="nombre" class="form-label form-label-required">Nombre</label>
+      <input
+        id="nombre"
+        type="text"
+        formControlName="nombre"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('nombre')"
+        placeholder="Ej. Juan"
+        autocomplete="given-name"
+      />
+      @if (campoInvalido('nombre')) {
+        <span class="form-error">El nombre es obligatorio (mínimo 2 caracteres).</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="apellido" class="form-label form-label-required">Apellido</label>
+      <input
+        id="apellido"
+        type="text"
+        formControlName="apellido"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('apellido')"
+        placeholder="Ej. Pérez"
+        autocomplete="family-name"
+      />
+      @if (campoInvalido('apellido')) {
+        <span class="form-error">El apellido es obligatorio (mínimo 2 caracteres).</span>
+      }
+    </div>
+  </div>
+
+  <!-- Fila: Correo y Nombre de Usuario -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="correo" class="form-label form-label-required">Correo electrónico</label>
+      <input
+        id="correo"
+        type="email"
+        formControlName="correo"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('correo')"
+        placeholder="tucorreo@ejemplo.com"
+        autocomplete="email"
+      />
+      @if (campoInvalido('correo')) {
+        <span class="form-error">Ingresá un correo electrónico válido.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="nombreUsuario" class="form-label form-label-required">Nombre de usuario</label>
+      <input
+        id="nombreUsuario"
+        type="text"
+        formControlName="nombreUsuario"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('nombreUsuario')"
+        placeholder="Ej. nacho_pets"
+        autocomplete="username"
+      />
+      @if (campoInvalido('nombreUsuario')) {
+        <span class="form-error">Debe tener al menos 3 caracteres sin espacios.</span>
+      }
+    </div>
+  </div>
+
+  <!-- Fila: Fecha de Nacimiento y Foto de Perfil -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="fechaNacimiento" class="form-label form-label-required">Fecha de nacimiento</label>
+      <input
+        id="fechaNacimiento"
+        type="date"
+        formControlName="fechaNacimiento"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('fechaNacimiento')"
+      />
+      @if (campoInvalido('fechaNacimiento')) {
+        <span class="form-error">Por favor seleccioná tu fecha de nacimiento.</span>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="fotoPerfil" class="form-label">Foto de perfil (opcional)</label>
+      <input
+        id="fotoPerfil"
+        type="file"
+        accept="image/png, image/jpeg, image/webp"
+        class="form-input file-input"
+        (change)="onArchivoSeleccionado($event)"
+      />
+      @if (nombreArchivoSeleccionado) {
+        <span class="form-help">Seleccionado: {{ nombreArchivoSeleccionado }}</span>
+      } @else {
+        <span class="form-help">Formatos aceptados: JPG, PNG o WebP.</span>
+      }
+    </div>
+  </div>
+
+  <!-- Campo opcional: Descripción / Bio -->
+  <div class="form-group">
+    <label for="descripcion" class="form-label">Sobre vos y tus mascotas (opcional)</label>
+    <textarea
+      id="descripcion"
+      formControlName="descripcion"
+      class="form-textarea"
+      rows="2"
+      placeholder="Contanos qué mascotas tenés o cuáles son tus animales favoritos..."
+    ></textarea>
+  </div>
+
+  <!-- Selector exclusivo de Administrador (para reutilizar en Sprint 4) -->
+  @if (esAdminCreando()) {
+    <div class="form-group admin-role-box">
+      <label for="perfil" class="form-label form-label-required">Rol asignado</label>
+      <select id="perfil" formControlName="perfil" class="form-select">
+        <option value="usuario">Usuario Regular</option>
+        <option value="administrador">Administrador del Sistema</option>
+      </select>
+    </div>
+  }
+
+  <!-- Fila: Contraseñas con verificación interactiva -->
+  <div class="form-row">
+    <div class="form-group">
+      <label for="password" class="form-label form-label-required">Contraseña</label>
+      <input
+        id="password"
+        type="password"
+        formControlName="password"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('password')"
+        placeholder="••••••••"
+        autocomplete="new-password"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="repetirPassword" class="form-label form-label-required">Repetir contraseña</label>
+      <input
+        id="repetirPassword"
+        type="password"
+        formControlName="repetirPassword"
+        class="form-input"
+        [class.is-invalid]="campoInvalido('repetirPassword') || (form.errors?.['passwordNoCoincide'] && form.get('repetirPassword')?.touched)"
+        placeholder="••••••••"
+        autocomplete="new-password"
+      />
+    </div>
+  </div>
+
+  <!-- Guía visual interactiva de requisitos de contraseña (Exigencia de Cátedra) -->
+  <div class="password-checklist" aria-live="polite">
+    <span class="checklist-title">Requisitos de seguridad de la contraseña:</span>
+    <ul class="checklist-items">
+      <li [class.item-ok]="tieneLongitudMinima">
+        <span class="check-icon">{{ tieneLongitudMinima ? '✓' : '○' }}</span>
+        Mínimo 8 caracteres
+      </li>
+      <li [class.item-ok]="tieneMayuscula">
+        <span class="check-icon">{{ tieneMayuscula ? '✓' : '○' }}</span>
+        Al menos una letra mayúscula (A-Z)
+      </li>
+      <li [class.item-ok]="tieneNumero">
+        <span class="check-icon">{{ tieneNumero ? '✓' : '○' }}</span>
+        Al menos un número (0-9)
+      </li>
+      <li [class.item-ok]="passwordsCoinciden">
+        <span class="check-icon">{{ passwordsCoinciden ? '✓' : '○' }}</span>
+        Las contraseñas coinciden
+      </li>
+    </ul>
+  </div>
+
+  <!-- Botón de Envío -->
+  <div class="form-actions">
+    <button
+      type="submit"
+      class="btn btn-primary btn-block"
+      [disabled]="form.invalid || cargando()"
+    >
+      @if (cargando()) {
+        <span>Creando cuenta... ⏳</span>
+      } @else {
+        <span>{{ esAdminCreando() ? 'Crear Usuario' : 'Completar Registro' }} 🐾</span>
+      }
+    </button>
+  </div>
+</form>
+
