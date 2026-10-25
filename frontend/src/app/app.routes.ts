@@ -17,14 +17,14 @@ export const routes: Routes = [
   // Rutas públicas (protegidas por guestGuard para usuarios no logueados)
   {
     path: 'login',
-    canActivate: [guestGuard],
+    // canActivate: [guestGuard],
     title: 'Iniciar Sesión | Patitas',
     loadComponent: () =>
       import('./pages/login/login').then((m) => m.LoginComponent),
   },
   {
     path: 'registro',
-    canActivate: [guestGuard],
+    // canActivate: [guestGuard],
     title: 'Crear Cuenta | Patitas',
     loadComponent: () =>
       import('./pages/registro/registro').then((m) => m.RegistroComponent),
@@ -33,14 +33,14 @@ export const routes: Routes = [
   // Rutas privadas (protegidas por authGuard)
   {
     path: 'publicaciones',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     title: 'Feed de Mascotas | Patitas',
     loadComponent: () =>
       import('./pages/publicaciones/publicaciones').then((m) => m.PublicacionesComponent),
   },
   {
     path: 'mi-perfil',
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     title: 'Mi Perfil | Patitas',
     loadComponent: () =>
       import('./pages/mi-perfil/mi-perfil').then((m) => m.MiPerfilComponent),
@@ -52,3 +52,4 @@ export const routes: Routes = [
     redirectTo: 'publicaciones',
   },
 ];
+
