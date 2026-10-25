@@ -1,0 +1,23 @@
+<main class="registro-wrapper">
+  <div class="card registro-card">
+    <div class="registro-header text-center">
+      <span class="registro-icon" aria-hidden="true">🐶🐱</span>
+      <h1 class="registro-title">Unite a la comunidad de Patitas</h1>
+      <p class="text-muted">Creá tu cuenta para compartir historias y fotos de tus mascotas</p>
+    </div>
+
+    <!-- Componente reutilizable de formulario -->
+    <app-formulario-registro
+      [cargando]="cargando()"
+      (formularioEnviado)="onRegistro($event)"
+    />
+
+    <div class="registro-footer text-center">
+      <p class="text-muted">
+        ¿Ya tenés una cuenta registrada?
+        <a routerLink="/login" class="link-destacado">Iniciá sesión acá</a>
+      </p>
+    </div>
+  </div>
+</main>
+

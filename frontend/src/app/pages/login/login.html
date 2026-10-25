@@ -1,0 +1,101 @@
+<main class="login-wrapper">
+  <div class="card login-card">
+    <!-- Encabezado con marca temática -->
+    <div class="login-header text-center">
+      <span class="login-icon" aria-hidden="true">🐾</span>
+      <h1 class="login-title">Iniciar Sesión en Patitas</h1>
+      <p class="text-muted">Ingresá con tu correo o nombre de usuario</p>
+    </div>
+
+    <!-- Panel de accesos rápidos para la cátedra (Requisito de clase 10) -->
+    <div class="quick-access-box" aria-label="Accesos rápidos para evaluación">
+      <span class="quick-access-title">⚡ Accesos rápidos docentes:</span>
+      <div class="quick-access-buttons">
+        <button
+          type="button"
+          class="btn btn-outline btn-sm"
+          (click)="usarCredencialesPrueba('usuario')"
+        >
+          🐕 Usuario Normal
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline btn-sm btn-admin-quick"
+          (click)="usarCredencialesPrueba('admin')"
+        >
+          👑 Administrador
+        </button>
+      </div>
+    </div>
+
+    <!-- Mensaje de error general si falla la autenticación -->
+    @if (errorMensaje()) {
+      <div class="login-error-alert" role="alert">
+        <span>⚠️</span>
+        <span>{{ errorMensaje() }}</span>
+      </div>
+    }
+
+    <!-- Formulario de Login -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login-form" novalidate>
+      <div class="form-group">
+        <label for="identificador" class="form-label form-label-required">
+          Usuario o Correo electrónico
+        </label>
+        <input
+          id="identificador"
+          type="text"
+          formControlName="identificador"
+          class="form-input"
+          [class.is-invalid]="campoInvalido('identificador')"
+          placeholder="ej. nacho_user o nacho@petsocial.com"
+          autocomplete="username"
+        />
+        @if (campoInvalido('identificador')) {
+          <span class="form-error">Ingresá tu usuario o correo.</span>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label form-label-required">
+          Contraseña
+        </label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="form-input"
+          [class.is-invalid]="campoInvalido('password')"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+        @if (campoInvalido('password')) {
+          <span class="form-error">La contraseña es obligatoria.</span>
+        }
+      </div>
+
+      <div class="login-actions">
+        <button
+          type="submit"
+          class="btn btn-primary btn-block"
+          [disabled]="form.invalid || cargando()"
+        >
+          @if (cargando()) {
+            <span>Ingresando... ⏳</span>
+          } @else {
+            <span>Ingresar a Patitas 🐾</span>
+          }
+        </button>
+      </div>
+    </form>
+
+    <!-- Pie con enlace a registro -->
+    <div class="login-footer text-center">
+      <p class="text-muted">
+        ¿Aún no tenés una cuenta?
+        <a routerLink="/registro" class="link-destacado">Registrate acá</a>
+      </p>
+    </div>
+  </div>
+</main>
+

@@ -1,0 +1,103 @@
+<div class="container page-wrapper">
+  @if (usuario(); as u) {
+    <!-- Tarjeta Principal del Perfil -->
+    <section class="card profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar-box">
+          <span class="profile-avatar" aria-hidden="true">🐶</span>
+        </div>
+
+        <div class="profile-main-info">
+          <div class="profile-title-row">
+            <h1 class="profile-name">{{ u.nombre }} {{ u.apellido }}</h1>
+            <span
+              class="badge"
+              [class.badge-admin]="u.perfil === 'administrador'"
+              [class.badge-primary]="u.perfil !== 'administrador'"
+            >
+              {{ u.perfil === 'administrador' ? 'Administrador 👑' : 'Miembro' }}
+            </span>
+          </div>
+
+          <p class="profile-username">&#64;{{ u.nombreUsuario }}</p>
+          <p class="profile-bio">{{ u.descripcion || 'Sin biografía añadida todavía.' }}</p>
+        </div>
+
+        <div class="profile-actions">
+          <button
+            type="button"
+            class="btn btn-outline btn-sm"
+            (click)="editarPerfil()"
+          >
+            ✏️ Editar Perfil
+          </button>
+        </div>
+      </div>
+
+      <!-- Datos adicionales de contacto y cuenta -->
+      <div class="profile-details-grid">
+        <div class="detail-item">
+          <span class="detail-label">Correo electrónico</span>
+          <span class="detail-value">{{ u.correo }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Fecha de nacimiento</span>
+          <span class="detail-value">{{ u.fechaNacimiento || 'No especificada' }}</span>
+        </div>
+
+        <div class="detail-item">
+          <span class="detail-label">Estado de la cuenta</span>
+          <span class="detail-value text-success">
+            ● {{ u.deshabilitado ? 'Suspendida temporalmente' : 'Activa' }}
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sección: Últimas publicaciones (Requisito de la cátedra para el perfil) -->
+    <section class="recent-posts-section">
+      <h2 class="section-title">🐾 Mis últimas publicaciones</h2>
+      <p class="text-muted">Mostrando las publicaciones recientes compartidas con la comunidad</p>
+
+      <div class="recent-posts-grid">
+        <div class="card recent-post-card">
+          <span class="post-preview-tag">🐶 Perro mestizo</span>
+          <h3 class="recent-post-title">Milo aprendió a dar la patita</h3>
+          <p class="recent-post-snippet">
+            Hoy Milo por fin entendió el truco de la patita usando premios caseros...
+          </p>
+          <div class="recent-post-meta">
+            <span>🐾 14 Me gusta</span>
+            <span>💬 4 comentarios</span>
+          </div>
+        </div>
+
+        <div class="card recent-post-card placeholder-card">
+          <span class="post-preview-tag">📸 Foto</span>
+          <h3 class="recent-post-title">Paseo de domingo por el parque</h3>
+          <p class="recent-post-snippet">
+            Corriendo detrás de las pelotas de tenis con otros perritos del barrio...
+          </p>
+          <div class="recent-post-meta">
+            <span>🐾 8 Me gusta</span>
+            <span>💬 2 comentarios</span>
+          </div>
+        </div>
+
+        <div class="card recent-post-card placeholder-card">
+          <span class="post-preview-tag">🐱 Adopción</span>
+          <h3 class="recent-post-title">Michi busca hogar responsable</h3>
+          <p class="recent-post-snippet">
+            Gatita de 3 meses rescatada en la zona de Avellaneda, desparasitada...
+          </p>
+          <div class="recent-post-meta">
+            <span>🐾 21 Me gusta</span>
+            <span>💬 7 comentarios</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  }
+</div>
+

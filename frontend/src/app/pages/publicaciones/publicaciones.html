@@ -1,0 +1,107 @@
+<div class="container page-wrapper">
+  <!-- Cabecera del Feed con Controles -->
+  <div class="feed-header">
+    <div>
+      <h1 class="feed-title">🐾 Feed de Mascotas</h1>
+      <p class="text-muted">Descubrí historias y fotos de la comunidad de Patitas</p>
+    </div>
+
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="abrirModalCrear()"
+    >
+      <span>+ Publicar Mascota</span>
+    </button>
+  </div>
+
+  <!-- Barra de Filtros y Ordenamiento (Requisito de Sprint 2 preparado) -->
+  <div class="feed-filter-bar">
+    <span class="filter-label">Ordenar publicaciones:</span>
+    <div class="filter-buttons">
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="criterioOrden() === 'fecha'"
+        [class.btn-outline]="criterioOrden() !== 'fecha'"
+        (click)="cambiarOrden('fecha')"
+      >
+        📅 Más recientes
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm"
+        [class.btn-primary]="criterioOrden() === 'megusta'"
+        [class.btn-outline]="criterioOrden() !== 'megusta'"
+        (click)="cambiarOrden('megusta')"
+      >
+        ❤️ Más populares
+      </button>
+    </div>
+  </div>
+
+  <!-- Listado de Publicaciones -->
+  <div class="posts-list">
+    @for (post of publicaciones(); track post.id) {
+      <article class="card post-card">
+        <!-- Cabecera de la publicación: Autor y fecha -->
+        <div class="post-header">
+          <div class="post-author-box">
+            <span class="author-avatar" aria-hidden="true">{{ post.iconoMascota }}</span>
+            <div>
+              <span class="author-name">{{ post.autorNombre }}</span>
+              <span class="author-username">&#64;{{ post.autorUsuario }} · {{ post.tiempo }}</span>
+            </div>
+          </div>
+
+          <!-- Botón de eliminar si es dueño o admin (prueba del modal sin alert) -->
+          @if (post.autorUsuario === authService.usuarioActual()?.nombreUsuario || authService.esAdmin()) {
+            <button
+              type="button"
+              class="btn btn-ghost btn-sm text-danger"
+              (click)="eliminarPost(post)"
+              title="Eliminar publicación"
+              aria-label="Eliminar publicación"
+            >
+              🗑️
+            </button>
+          }
+        </div>
+
+        <!-- Contenido principal -->
+        <div class="post-body">
+          <h2 class="post-title">{{ post.titulo }}</h2>
+          <p class="post-description">{{ post.descripcion }}</p>
+        </div>
+
+        <!-- Pie: Interacciones (Me gusta y comentarios) -->
+        <div class="post-footer">
+          <button
+            type="button"
+            class="btn btn-sm btn-like"
+            [class.liked]="post.dioMeGusta"
+            (click)="toggleMeGusta(post)"
+            aria-label="Dar me gusta"
+          >
+            <span class="like-icon">{{ post.dioMeGusta ? '🐾' : '🤍' }}</span>
+            <span>{{ post.cantidadMeGusta }} Me gusta</span>
+          </button>
+
+          <span class="comments-badge">
+            💬 {{ post.comentariosCount }} comentarios
+          </span>
+        </div>
+      </article>
+    } @empty {
+      <div class="empty-state text-center card">
+        <p>No hay publicaciones disponibles en este momento.</p>
+      </div>
+    }
+  </div>
+
+  <!-- Paginador de muestra (5 por página) -->
+  <div class="pagination-box text-center">
+    <span class="text-muted">Mostrando publicaciones 1 - 3 de 3</span>
+  </div>
+</div>
+
