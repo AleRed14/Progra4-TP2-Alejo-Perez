@@ -12,3 +12,4 @@
 10. **Diseño Temático Propio:** Variables CSS cálidas de mascotas (tierra/verde) en `styles.css`. Prohibidos estilos genéricos de IA.
 11. **Responsabilidad Única (SRP):** Desacoplar persistencia (`localStorage`), datos de prueba (mocks) y lógica de negocio en servicios separados.
 12. **Accesibilidad WCAG AA:** Estilos `:focus-visible` de alto contraste, roles ARIA y navegación completa por teclado.
+

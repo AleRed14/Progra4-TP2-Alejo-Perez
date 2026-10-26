@@ -296,3 +296,4 @@ chunk-C_erUGMu.js   | mi-perfil     |   6.36 kB |                 2.08 kB
 
 ### 6. ¿Por qué aplicaron Lazy Loading en las rutas?
 > *"Para optimizar el rendimiento y la carga inicial. Con `loadComponent` y dynamic imports (`import(...)`), el navegador solo descarga el código de la pantalla a la que el usuario efectivamente ingresa, en lugar de descargar toda la aplicación junta en el primer ingreso."*
+

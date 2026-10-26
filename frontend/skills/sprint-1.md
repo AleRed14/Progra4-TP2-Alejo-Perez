@@ -8,3 +8,4 @@
 6. **Fase 5 (Componentes Shared):** Crear Navbar reactiva y FormularioRegistro reutilizable con checklist interactivo de contraseña.
 7. **Fase 6 (Vistas Ruteadas):** Crear LoginComponent (con accesos rápidos para el docente), RegistroComponent, Feed y MiPerfil.
 8. **Fase 7 (Shell & Ruteo):** Limpiar app.html, configurar app.routes con Lazy Loading (loadComponent) y verificar con ng build.
+
