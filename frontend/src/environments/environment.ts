@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://progra4-tp2-alejo-perez-backend.vercel.app',
+  apiUrl: 'https://progra4-tp-2-alejo-perez-nest.vercel.app/',
   // Configuración de tiempos y paginación para producción:
   tiempoTokenSegundos: 60,
   tiempoAvisoPrevioSegundos: 15,
