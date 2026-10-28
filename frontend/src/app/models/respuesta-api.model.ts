@@ -22,7 +22,7 @@ export interface ErrorApi {
  * Respuesta exitosa del endpoint POST /autenticacion/login
  */
 export interface RespuestaLogin {
-  token: string;
+  token?: string;
   usuario: Usuario;
   mensaje?: string;
 }
@@ -60,4 +60,3 @@ export interface RespuestaPaginada<T> {
   limit: number;
   offset: number;
 }
-

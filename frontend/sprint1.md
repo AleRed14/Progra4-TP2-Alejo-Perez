@@ -62,7 +62,7 @@ Para garantizar trazabilidad y permitir volver atrás en cualquier etapa:
 
 ### 4. `src/app/app.config.ts`
 * **Providers configurados:**
-  * `provideHttpClient(withFetch())`: Habilita el cliente HTTP moderno de Angular usando la API nativa `Fetch` del navegador.
+  * `provideHttpClient(withInterceptors([authInterceptor]))`: Habilita el cliente HTTP de Angular (que en versiones recientes ya usa la API nativa `Fetch` por defecto) y registra el interceptor de autenticación.
   * `provideRouter(routes, withComponentInputBinding())`: Configura el enrutador y permite recibir parámetros de ruta (`:id`) directamente como `input()` en los componentes.
   * `provideBrowserGlobalErrorListeners()`: Captura de errores globales no controlados.
 
@@ -184,7 +184,7 @@ Para evitar un servicio monolítico de más de 200 líneas y cumplir con el Prin
      * **401 Unauthorized:** Si no proviene del formulario de login, significa que la sesión expiró. Limpia el storage, notifica con el mensaje oficial *"Tu sesión ha finalizado. Por favor, volvé a ingresar"* y redirige a `/login`.
      * **403 Forbidden:** Notifica que no se poseen permisos.
      * **500 Internal Server Error:** Notifica *"Ocurrió un problema en nuestros servidores. Por favor, intentá nuevamente en unos minutos."*
-* **Registro en `app.config.ts`:** Se incluyó dentro de `provideHttpClient(withFetch(), withInterceptors([authInterceptor]))`.
+* **Registro en `app.config.ts`:** Se incluyó dentro de `provideHttpClient(withInterceptors([authInterceptor]))`.
 
 ---
 

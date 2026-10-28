@@ -35,7 +35,7 @@ export class AutenticacionService {
   // --- Señales públicas derivadas (solo lectura) ---
   readonly usuarioActual = this._usuarioActual.asReadonly();
   readonly token = this._token.asReadonly();
-  readonly estaAutenticado = computed(() => !!this._usuarioActual() && !!this._token());
+  readonly estaAutenticado = computed(() => !!this._usuarioActual());
   readonly esAdmin = computed(() => this._usuarioActual()?.perfil === 'administrador');
 
   // Atajo a las credenciales de prueba para botones rápidos de UI
@@ -62,10 +62,29 @@ export class AutenticacionService {
 
   /**
    * Registra un nuevo usuario (POST /autenticacion/registro).
+   * Envía FormData compatible con FileInterceptor('imagen') y CreateRegistroDto del backend.
    */
   registro(dto: RegistroUsuarioDto): Observable<RespuestaRegistro> {
+    const formData = new FormData();
+    formData.append('nombre', dto.nombre);
+    formData.append('apellido', dto.apellido);
+    formData.append('correo', dto.correo);
+    formData.append('nombreUsuario', dto.nombreUsuario);
+    formData.append('password', dto.password);
+    formData.append('fechaNacimiento', dto.fechaNacimiento);
+
+    if (dto.descripcion) {
+      formData.append('descripcion', dto.descripcion);
+    }
+    if (dto.perfil) {
+      formData.append('perfil', dto.perfil);
+    }
+    if (dto.fotoPerfil) {
+      formData.append('imagen', dto.fotoPerfil);
+    }
+
     return this.http
-      .post<RespuestaRegistro>(`${this.apiUrl}/autenticacion/registro`, dto)
+      .post<RespuestaRegistro>(`${this.apiUrl}/autenticacion/registro`, formData)
       .pipe(
         catchError((error) => {
           if (error.status === 0 || error.status === 404) {
@@ -130,10 +149,11 @@ export class AutenticacionService {
     return this._token();
   }
 
-  private establecerSesion(token: string, usuario: Usuario): void {
-    this._token.set(token);
+  private establecerSesion(token: string | undefined, usuario: Usuario): void {
+    const tokenFinal = token || `sesion-sprint1-${usuario._id}`;
+    this._token.set(tokenFinal);
     this._usuarioActual.set(usuario);
-    this.storage.guardarToken(token);
+    this.storage.guardarToken(tokenFinal);
     this.storage.guardarUsuario(usuario);
   }
 }

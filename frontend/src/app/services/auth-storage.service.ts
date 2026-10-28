@@ -15,7 +15,11 @@ const STORAGE_USER_KEY = 'patitas_usuario_data';
 export class AuthStorageService {
   obtenerToken(): string | null {
     try {
-      return localStorage.getItem(STORAGE_TOKEN_KEY);
+      const token = localStorage.getItem(STORAGE_TOKEN_KEY);
+      if (!token || token === 'undefined' || token === 'null') {
+        return null;
+      }
+      return token;
     } catch {
       return null;
     }
@@ -32,7 +36,10 @@ export class AuthStorageService {
   obtenerUsuario(): Usuario | null {
     try {
       const data = localStorage.getItem(STORAGE_USER_KEY);
-      return data ? (JSON.parse(data) as Usuario) : null;
+      if (!data || data === 'undefined' || data === 'null') {
+        return null;
+      }
+      return JSON.parse(data) as Usuario;
     } catch {
       return null;
     }
@@ -55,4 +62,3 @@ export class AuthStorageService {
     }
   }
 }
-

@@ -50,8 +50,8 @@ export interface RegistroUsuarioDto {
   repetirPassword?: string;
   fechaNacimiento: string;
   descripcion?: string;
+  perfil?: PerfilUsuario;
   fotoPerfil?: File | null;
-  fotoPerfilUrl?: string;
 }
 
 /**
@@ -66,4 +66,3 @@ export interface UsuarioSesion {
   iat?: number;            // Issued At (timestamp emisión)
   exp?: number;            // Expiration (timestamp vencimiento)
 }
-
