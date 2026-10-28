@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { AutenticacionService } from '../../services/autenticacion.service';
 import { NotificacionService } from '../../services/notificacion.service';
 
@@ -8,7 +9,7 @@ import { NotificacionService } from '../../services/notificacion.service';
  */
 @Component({
   selector: 'app-mi-perfil',
-  imports: [],
+  imports: [DatePipe],
   templateUrl: './mi-perfil.html',
   styleUrl: './mi-perfil.css',
 })
@@ -19,6 +20,22 @@ export class MiPerfilComponent {
   // Señal del usuario actualmente autenticado
   protected readonly usuario = this.authService.usuarioActual;
 
+  // Controla si la imagen de perfil falló al cargar para mostrar el avatar por defecto
+  protected readonly errorImagen = signal<boolean>(false);
+
+  protected readonly mostrarFoto = computed(() => {
+    const url = this.usuario()?.fotoPerfilUrl;
+    return (
+      !!url &&
+      url !== 'assets/imagenes/avatar-defecto.png' &&
+      !this.errorImagen()
+    );
+  });
+
+  onErrorImagen(): void {
+    this.errorImagen.set(true);
+  }
+
   /**
    * Notificación para la funcionalidad de edición (Sprint 2).
    */
@@ -28,4 +45,3 @@ export class MiPerfilComponent {
     );
   }
 }
-

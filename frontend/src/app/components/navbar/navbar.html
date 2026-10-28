@@ -2,7 +2,14 @@
   <div class="container navbar-container">
     <!-- Logotipo y Nombre del Sistema -->
     <a routerLink="/" class="navbar-brand" aria-label="Ir al inicio de Patitas">
-      <span class="brand-icon" aria-hidden="true">🐾</span>
+      <img
+        ngSrc="/imagenes/mascota.png"
+        width="32"
+        height="32"
+        priority
+        alt=""
+        class="brand-logo"
+      />
       <span class="brand-text">Patitas</span>
     </a>
 
@@ -18,36 +25,76 @@
           <span>Feed de Mascotas</span>
         </a>
 
-        <a
-          routerLink="/mi-perfil"
-          routerLinkActive="active"
-          class="nav-link"
-        >
-          <span>Mi Perfil</span>
-        </a>
-
         <!-- Chip de Administrador (si corresponde) -->
         @if (authService.esAdmin()) {
           <span class="badge badge-admin" title="Tenés permisos de administrador">
-            Admin 👑
+            Admin
           </span>
         }
 
-        <!-- Información de Usuario & Botón Salir -->
+        <!-- Botón de Usuario con Menú Desplegable -->
         <div class="user-menu">
-          <div class="user-pill" title="Usuario conectado">
-            <span class="user-avatar" aria-hidden="true">🐶</span>
-            <span class="user-name">{{ authService.usuarioActual()?.nombreUsuario }}</span>
-          </div>
-
           <button
             type="button"
-            class="btn btn-outline btn-sm btn-logout"
-            (click)="cerrarSesion()"
-            aria-label="Cerrar sesión"
+            class="user-pill user-pill-btn"
+            [class.active]="menuAbierto()"
+            (click)="toggleMenu($event)"
+            [attr.aria-expanded]="menuAbierto()"
+            aria-haspopup="menu"
+            title="Menú de usuario"
           >
-            Salir
+            @if (mostrarFoto()) {
+              <img
+                [src]="authService.usuarioActual()?.fotoPerfilUrl"
+                [alt]="'Avatar de ' + authService.usuarioActual()?.nombreUsuario"
+                class="user-avatar-img"
+                (error)="onErrorImagen()"
+              />
+            } @else {
+              <span class="user-avatar" aria-hidden="true">🐶</span>
+            }
+            <span class="user-name">{{ authService.usuarioActual()?.nombreUsuario }}</span>
+            <span class="dropdown-chevron" [class.rotated]="menuAbierto()" aria-hidden="true">▾</span>
           </button>
+
+          @if (menuAbierto()) {
+            <div class="user-dropdown" role="menu" (click)="$event.stopPropagation()">
+              <a
+                routerLink="/mi-perfil"
+                routerLinkActive="active"
+                class="dropdown-item"
+                role="menuitem"
+                (click)="cerrarMenu()"
+              >
+                <img
+                  ngSrc="/imagenes/avatar.png"
+                  width="32"
+                  height="32"
+                  priority
+                  alt=""
+                  class="menu-logo"
+                />
+                <span>Mi perfil</span>
+              </a>
+
+              <button
+                type="button"
+                class="dropdown-item dropdown-item-danger"
+                role="menuitem"
+                (click)="cerrarSesion()"
+              >
+                <img
+                  ngSrc="/imagenes/salir.png"
+                  width="16"
+                  height="16"
+                  priority
+                  alt=""
+                  class="menu-logo"
+                />
+                <span>Cerrar sesión</span>
+              </button>
+            </div>
+          }
         </div>
       } @else {
         <!-- Rutas públicas para invitados -->
@@ -70,4 +117,3 @@
     </nav>
   </div>
 </header>
-

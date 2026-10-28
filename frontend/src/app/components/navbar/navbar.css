@@ -70,9 +70,9 @@
 
 /* Menú de usuario conectado */
 .user-menu {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   margin-left: 0.5rem;
   border-left: 1px solid var(--color-border);
   padding-left: 1rem;
@@ -81,18 +81,44 @@
 .user-pill {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.5rem;
   background-color: var(--color-surface-muted);
-  padding: 0.35rem 0.75rem;
+  padding: 0.35rem 0.8rem;
   border-radius: var(--radius-full);
+  font-family: inherit;
   font-size: 0.88rem;
   font-weight: 600;
   color: var(--color-text);
+  border: 1px solid transparent;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.user-pill-btn {
+  cursor: pointer;
+}
+
+.user-pill-btn:hover,
+.user-pill-btn.active {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.user-pill-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 .user-avatar {
   font-size: 1.1rem;
   line-height: 1;
+}
+
+.user-avatar-img {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  display: block;
 }
 
 .user-name {
@@ -102,8 +128,65 @@
   white-space: nowrap;
 }
 
-.btn-logout {
-  padding: 0.4rem 0.8rem;
+.dropdown-chevron {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  transition: transform var(--transition-fast);
+}
+
+.dropdown-chevron.rotated {
+  transform: rotate(180deg);
+}
+
+/* Panel desplegable */
+.user-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 190px;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  z-index: 1100;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.6rem 0.85rem;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-decoration: none;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.dropdown-item:hover,
+.dropdown-item.active {
+  background-color: var(--color-primary-light);
+  color: var(--color-primary);
+}
+
+.dropdown-item-danger {
+  color: var(--color-danger, #dc2626);
+}
+
+.dropdown-item-danger:hover {
+  background-color: #fef2f2;
+  color: var(--color-danger, #dc2626);
 }
 
 /* Responsive móvil */
@@ -123,7 +206,19 @@
 
   .user-menu {
     padding-left: 0.5rem;
-    gap: 0.5rem;
   }
 }
 
+.brand-logo {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  display: block;
+}
+
+.menu-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
+}

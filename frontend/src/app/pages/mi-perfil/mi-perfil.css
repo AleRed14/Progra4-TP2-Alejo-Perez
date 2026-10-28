@@ -28,6 +28,15 @@
   border: 3px solid var(--color-primary-light);
 }
 
+.profile-avatar-img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: var(--radius-full);
+  border: 3px solid var(--color-primary-light);
+  display: block;
+}
+
 .profile-main-info {
   flex: 1;
 }
@@ -154,4 +163,3 @@
     justify-content: center;
   }
 }
-

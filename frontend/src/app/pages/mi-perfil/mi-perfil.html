@@ -4,7 +4,16 @@
     <section class="card profile-card">
       <div class="profile-header">
         <div class="profile-avatar-box">
-          <span class="profile-avatar" aria-hidden="true">🐶</span>
+          @if (mostrarFoto()) {
+            <img
+              [src]="u.fotoPerfilUrl"
+              [alt]="'Foto de perfil de ' + u.nombre + ' ' + u.apellido"
+              class="profile-avatar-img"
+              (error)="onErrorImagen()"
+            />
+          } @else {
+            <span class="profile-avatar" aria-hidden="true">🐶</span>
+          }
         </div>
 
         <div class="profile-main-info">
@@ -13,37 +22,46 @@
             <span
               class="badge"
               [class.badge-admin]="u.perfil === 'administrador'"
-              [class.badge-primary]="u.perfil !== 'administrador'"
+              /* [class.badge-primary]="u.perfil !== 'administrador'" */
             >
-              {{ u.perfil === 'administrador' ? 'Administrador 👑' : 'Miembro' }}
+              {{ u.perfil === 'administrador' ? 'Administrador' : '' }}
             </span>
           </div>
 
-          <p class="profile-username">&#64;{{ u.nombreUsuario }}</p>
-          <p class="profile-bio">{{ u.descripcion || 'Sin biografía añadida todavía.' }}</p>
+          <p class="profile-username">
+            &#64;{{ u.nombreUsuario }} | 
+            
+              <span>
+                {{ u.fechaNacimiento ? (u.fechaNacimiento | date:'dd/MM/yyyy') : 'No especificada' }}
+              </span>
+            
+          </p>
         </div>
-
-        <div class="profile-actions">
+        
+        <!-- <div class="profile-actions">
           <button
-            type="button"
-            class="btn btn-outline btn-sm"
-            (click)="editarPerfil()"
+          type="button"
+          class="btn btn-outline btn-sm"
+          (click)="editarPerfil()"
           >
-            ✏️ Editar Perfil
-          </button>
-        </div>
-      </div>
-
-      <!-- Datos adicionales de contacto y cuenta -->
-      <div class="profile-details-grid">
-        <div class="detail-item">
+          ✏️ Editar Perfil
+        </button>
+      </div> -->
+    </div>
+    
+    <!-- Datos adicionales de contacto y cuenta -->
+    <div class="profile-details-grid">
+        <p class="profile-bio">{{ u.descripcion || 'Sin biografía añadida todavía.' }}</p>
+        <!-- <div class="detail-item">
           <span class="detail-label">Correo electrónico</span>
           <span class="detail-value">{{ u.correo }}</span>
         </div>
 
         <div class="detail-item">
           <span class="detail-label">Fecha de nacimiento</span>
-          <span class="detail-value">{{ u.fechaNacimiento || 'No especificada' }}</span>
+          <span class="detail-value">
+            {{ u.fechaNacimiento ? (u.fechaNacimiento | date:'dd/MM/yyyy') : 'No especificada' }}
+          </span>
         </div>
 
         <div class="detail-item">
@@ -51,14 +69,17 @@
           <span class="detail-value text-success">
             ● {{ u.deshabilitado ? 'Suspendida temporalmente' : 'Activa' }}
           </span>
-        </div>
+        </div> -->
       </div>
     </section>
 
     <!-- Sección: Últimas publicaciones (Requisito de la cátedra para el perfil) -->
     <section class="recent-posts-section">
-      <h2 class="section-title">🐾 Mis últimas publicaciones</h2>
-      <p class="text-muted">Mostrando las publicaciones recientes compartidas con la comunidad</p>
+      <h2 class="section-title">
+        <!-- <img src="/imagenes/mascota.png" alt="" class="title-logo" aria-hidden="true" /> -->
+        Últimas publicaciones
+      </h2>
+      <!-- <p class="text-muted">Mostrando las publicaciones recientes compartidas con la comunidad</p> -->
 
       <div class="recent-posts-grid">
         <div class="card recent-post-card">
@@ -68,8 +89,14 @@
             Hoy Milo por fin entendió el truco de la patita usando premios caseros...
           </p>
           <div class="recent-post-meta">
-            <span>🐾 14 Me gusta</span>
-            <span>💬 4 comentarios</span>
+            <span>
+              <img src="/imagenes/pata.png" alt="" class="inline-logo" aria-hidden="true" />
+              14 Me gusta
+            </span>
+            <span>
+              <img src="/imagenes/comentario.png" alt="" class="inline-logo" aria-hidden="true" />
+             4 comentarios
+            </span>
           </div>
         </div>
 
@@ -80,8 +107,14 @@
             Corriendo detrás de las pelotas de tenis con otros perritos del barrio...
           </p>
           <div class="recent-post-meta">
-            <span>🐾 8 Me gusta</span>
-            <span>💬 2 comentarios</span>
+            <span>
+              <img src="/imagenes/pata.png" alt="" class="inline-logo" aria-hidden="true" />
+              8 Me gusta
+            </span>
+            <span>
+              <img src="/imagenes/comentario.png" alt="" class="inline-logo" aria-hidden="true" />
+              2 comentarios
+            </span>
           </div>
         </div>
 
@@ -92,12 +125,19 @@
             Gatita de 3 meses rescatada en la zona de Avellaneda, desparasitada...
           </p>
           <div class="recent-post-meta">
-            <span>🐾 21 Me gusta</span>
-            <span>💬 7 comentarios</span>
+            <span>
+              <img src="/imagenes/pata.png" alt="" class="inline-logo" aria-hidden="true" />
+              21 Me gusta
+            </span>
+            <span>
+              <img src="/imagenes/comentario.png" alt="" class="inline-logo" aria-hidden="true" />
+            
+              7 comentarios
+
+            </span>
           </div>
         </div>
       </div>
     </section>
   }
 </div>
-
