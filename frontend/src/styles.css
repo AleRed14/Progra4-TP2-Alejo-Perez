@@ -63,7 +63,7 @@
   --radius-xs: 4px;
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 10px;
   --radius-xl: 28px;
   --radius-full: 9999px;
 
@@ -74,8 +74,8 @@
   --shadow-lg: 0 12px 28px rgba(44, 37, 32, 0.12);
 
   /* Transiciones estándar */
-  --transition-fast: 0.15s ease-in-out;
-  --transition-normal: 0.25s ease-in-out;
+  /* --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.25s ease-in-out; */
 
   /* Espaciado del contenedor */
   --max-width-content: 1120px;
@@ -189,7 +189,7 @@ small {
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
+  /* box-shadow: var(--shadow-md); */
   border-color: var(--color-border-hover);
 }
 
@@ -417,3 +417,77 @@ small {
 .gap-2 { gap: 0.5rem; }
 .gap-3 { gap: 0.75rem; }
 .gap-4 { gap: 1rem; }
+
+
+/* --- 10. Spinner Global Temático de Mascotas (Reutilizable) --- */
+.btn-loading-content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+}
+
+.spinner-patas {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  animation: girarPatas 1s linear infinite;
+  display: inline-block;
+  filter: brightness(0) invert(1); /* Pone la patita en blanco sobre botones primarios/oscuros */
+}
+
+/* Variante para botones con fondo claro u outline */
+.spinner-patas.spinner-dark {
+  filter: none;
+}
+
+@keyframes girarPatas {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+/* Iconos temáticos de logotipo */
+.inline-logo {
+  width: 1.15em;
+  height: 1.15em;
+  vertical-align: -0.18em;
+  object-fit: contain;
+  display: inline-block;
+}
+
+.title-logo {
+  width: 1.25em;
+  height: 1.25em;
+  vertical-align: -0.18em;
+  object-fit: contain;
+  display: inline-block;
+  margin-right: 0.35rem;
+}
+
+.login-logo-img {
+  width: 54px;
+  height: 54px;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 0.5rem;
+}
+
+.toast-logo-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  display: block;
+}
+
+#publication-logo {
+  width: 2em;
+  height: 2em;
+  vertical-align: -0.18em;
+  object-fit: contain;
+  display: inline-block;
+}

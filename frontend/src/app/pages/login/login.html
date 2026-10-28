@@ -2,28 +2,28 @@
   <div class="card login-card">
     <!-- Encabezado con marca temática -->
     <div class="login-header text-center">
-      <span class="login-icon" aria-hidden="true">🐾</span>
+      <img src="/imagenes/mascota.png" alt="" class="login-logo-img" aria-hidden="true" />
       <h1 class="login-title">Iniciar Sesión en Patitas</h1>
       <p class="text-muted">Ingresá con tu correo o nombre de usuario</p>
     </div>
 
     <!-- Panel de accesos rápidos para la cátedra (Requisito de clase 10) -->
     <div class="quick-access-box" aria-label="Accesos rápidos para evaluación">
-      <span class="quick-access-title">⚡ Accesos rápidos docentes:</span>
+      <span class="quick-access-title">Accesos rápidos docentes:</span>
       <div class="quick-access-buttons">
         <button
           type="button"
           class="btn btn-outline btn-sm"
           (click)="usarCredencialesPrueba('usuario')"
         >
-          🐕 Usuario Normal
+          Usuario Normal
         </button>
         <button
           type="button"
           class="btn btn-outline btn-sm btn-admin-quick"
           (click)="usarCredencialesPrueba('admin')"
         >
-          👑 Administrador
+          Administrador
         </button>
       </div>
     </div>
@@ -81,9 +81,20 @@
           [disabled]="form.invalid || cargando()"
         >
           @if (cargando()) {
-            <span>Ingresando... ⏳</span>
+            <span class="btn-loading-content">
+              <img
+                src="/imagenes/patas.png"
+                alt=""
+                class="spinner-patas"
+                aria-hidden="true"
+              />
+              <span>Ingresando...</span>
+            </span>
           } @else {
-            <span>Ingresar a Patitas 🐾</span>
+            <span class="btn-content">
+              <span>Ingresar a Patitas</span>
+              <!-- <img src="/imagenes/mascota.png" alt="" class="inline-logo" aria-hidden="true" /> -->
+            </span>
           }
         </button>
       </div>
@@ -98,4 +109,3 @@
     </div>
   </div>
 </main>
-

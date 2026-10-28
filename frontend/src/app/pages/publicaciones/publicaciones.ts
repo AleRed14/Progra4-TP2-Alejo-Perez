@@ -71,7 +71,7 @@ export class PublicacionesComponent {
       cantidadMeGusta: 45,
       dioMeGusta: false,
       comentariosCount: 11,
-      iconoMascota: '🐾',
+      iconoMascota: '🐶',
     },
   ]);
 
@@ -130,4 +130,3 @@ export class PublicacionesComponent {
     }
   }
 }
-

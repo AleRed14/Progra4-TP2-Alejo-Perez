@@ -12,7 +12,7 @@
     >
       <div class="toast-icon" aria-hidden="true">
         @switch (toast.tipo) {
-          @case ('exito') { <span>🐾</span> }
+          @case ('exito') { <img src="/imagenes/mascota.png" alt="" class="toast-logo-icon" /> }
           @case ('error') { <span>⚠️</span> }
           @case ('advertencia') { <span>⚡</span> }
           @default { <span>ℹ️</span> }
@@ -66,4 +66,3 @@
     </div>
   </div>
 }
-

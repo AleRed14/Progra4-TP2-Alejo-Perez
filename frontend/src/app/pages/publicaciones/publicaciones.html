@@ -1,22 +1,25 @@
 <div class="container page-wrapper">
   <!-- Cabecera del Feed con Controles -->
   <div class="feed-header">
-    <div>
-      <h1 class="feed-title">🐾 Feed de Mascotas</h1>
+    <!-- <div>
+      <h1 class="feed-title">
+        <img src="/imagenes/mascota.png" alt="" class="title-logo" aria-hidden="true" />
+        Feed de Mascotas
+      </h1>
       <p class="text-muted">Descubrí historias y fotos de la comunidad de Patitas</p>
-    </div>
+    </div> -->
 
-    <button
+    <!-- <button
       type="button"
       class="btn btn-primary"
       (click)="abrirModalCrear()"
     >
       <span>+ Publicar Mascota</span>
-    </button>
+    </button> -->
   </div>
 
   <!-- Barra de Filtros y Ordenamiento (Requisito de Sprint 2 preparado) -->
-  <div class="feed-filter-bar">
+  <!-- <div class="feed-filter-bar">
     <span class="filter-label">Ordenar publicaciones:</span>
     <div class="filter-buttons">
       <button
@@ -38,7 +41,7 @@
         ❤️ Más populares
       </button>
     </div>
-  </div>
+  </div> -->
 
   <!-- Listado de Publicaciones -->
   <div class="posts-list">
@@ -63,7 +66,8 @@
               title="Eliminar publicación"
               aria-label="Eliminar publicación"
             >
-              🗑️
+              
+              <img src="/imagenes/contenedor-de-basura.png" alt="" class="inline-logo" id="publication-logo" aria-hidden="true" />
             </button>
           }
         </div>
@@ -83,12 +87,20 @@
             (click)="toggleMeGusta(post)"
             aria-label="Dar me gusta"
           >
-            <span class="like-icon">{{ post.dioMeGusta ? '🐾' : '🤍' }}</span>
+            <span class="like-icon">
+              @if (post.dioMeGusta) {
+                <img src="/imagenes/pata.png" alt="" class="inline-logo" aria-hidden="true" />
+              } @else {
+                <img src="/imagenes/pata-no-like.png" alt="" class="inline-logo" aria-hidden="true" />
+                
+              }
+            </span>
             <span>{{ post.cantidadMeGusta }} Me gusta</span>
           </button>
-
+          
           <span class="comments-badge">
-            💬 {{ post.comentariosCount }} comentarios
+            <img src="/imagenes/comentario.png" alt="" class="inline-logo" aria-hidden="true" />
+            {{ post.comentariosCount }} comentarios
           </span>
         </div>
       </article>
@@ -100,8 +112,7 @@
   </div>
 
   <!-- Paginador de muestra (5 por página) -->
-  <div class="pagination-box text-center">
+  <!-- <div class="pagination-box text-center">
     <span class="text-muted">Mostrando publicaciones 1 - 3 de 3</span>
-  </div>
+  </div> -->
 </div>
-

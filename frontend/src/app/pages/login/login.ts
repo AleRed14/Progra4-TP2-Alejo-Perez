@@ -60,7 +60,7 @@ export class LoginComponent {
     this.authService.login(this.form.value).subscribe({
       next: (res) => {
         this.cargando.set(false);
-        this.notificacionService.exito(`¡Bienvenido de nuevo, ${res.usuario.nombre}! 🐾`);
+        this.notificacionService.exito(`¡Bienvenido de nuevo, ${res.usuario.nombre}!`);
         this.router.navigate(['/publicaciones']);
       },
       error: (err) => {
@@ -78,4 +78,3 @@ export class LoginComponent {
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 }
-
