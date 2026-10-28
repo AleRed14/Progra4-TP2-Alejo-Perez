@@ -10,10 +10,166 @@
   gap: 1rem;
 }
 
-.file-input {
-  padding: 0.45rem 0.6rem;
-  font-size: 0.88rem;
+.form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.form-label-row .form-label {
+  margin-bottom: 0;
+}
+
+.char-counter {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-text-light);
+  font-variant-numeric: tabular-nums;
+  transition: color var(--transition-fast);
+}
+
+.char-counter-warning {
+  color: #d97706; /* Ámbar cuando está cerca del límite */
+}
+
+.char-counter-danger {
+  color: var(--color-error);
+  font-weight: 800;
+}
+
+.fecha-selects-row {
+  display: grid;
+  grid-template-columns: 85px 1fr 98px;
+  gap: 0.45rem;
+}
+
+/* Zona de Arrastre (Dropzone) estilo moderno */
+.dropzone {
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-sm);
   background-color: var(--color-surface-muted);
+  min-height: 44px;
+  padding: 0.45rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+  outline: none;
+}
+
+.dropzone:hover {
+  border-color: var(--color-primary);
+  background-color: var(--color-primary-light);
+}
+
+.dropzone:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(217, 107, 67, 0.2);
+}
+
+.dropzone.is-dragging {
+  border-color: var(--color-primary);
+  border-style: solid;
+  background-color: #fff3ed;
+  transform: scale(1.01);
+}
+
+.dropzone-content {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.dropzone-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.dropzone-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.dropzone-prompt {
+  font-size: 0.84rem;
+  color: var(--color-text);
+}
+
+.dropzone-prompt strong {
+  color: var(--color-primary);
+}
+
+.dropzone-hint {
+  font-size: 0.72rem;
+  color: var(--color-text-light);
+}
+
+/* Vista previa activa de la foto dentro de la dropzone */
+.dropzone.has-preview {
+  border-style: solid;
+  border-color: var(--color-primary-light);
+  background-color: #fffaf7;
+  padding: 0.35rem 0.6rem;
+}
+
+.dropzone-preview-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+}
+
+.dropzone-preview-img {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  border: 2px solid var(--color-primary);
+  flex-shrink: 0;
+}
+
+.dropzone-preview-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  line-height: 1.2;
+}
+
+.preview-filename {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-change-hint {
+  font-size: 0.7rem;
+  color: var(--color-text-light);
+}
+
+.btn-quitar-foto {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  font-weight: bold;
+  padding: 0.25rem 0.45rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.btn-quitar-foto:hover {
+  color: var(--color-error);
+  background-color: #fee2e2;
 }
 
 .admin-role-box {
@@ -82,8 +238,12 @@
     gap: 0;
   }
 
+  .fecha-selects-row {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.35rem;
+  }
+
   .checklist-items {
     grid-template-columns: 1fr;
   }
 }
-

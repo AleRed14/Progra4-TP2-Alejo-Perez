@@ -69,49 +69,160 @@
     </div>
   </div>
 
-  <!-- Fila: Fecha de Nacimiento y Foto de Perfil -->
+  <!-- Fila: Fecha de Nacimiento (Día, Mes, Año) y Foto de Perfil con Drag & Drop -->
   <div class="form-row">
     <div class="form-group">
-      <label for="fechaNacimiento" class="form-label form-label-required">Fecha de nacimiento</label>
-      <input
-        id="fechaNacimiento"
-        type="date"
-        formControlName="fechaNacimiento"
-        class="form-input"
-        [class.is-invalid]="campoInvalido('fechaNacimiento')"
-      />
-      @if (campoInvalido('fechaNacimiento')) {
-        <span class="form-error">Por favor seleccioná tu fecha de nacimiento.</span>
+      <label class="form-label form-label-required">Fecha de nacimiento</label>
+      <div class="fecha-selects-row">
+        <!-- Día -->
+        <div>
+          <label for="diaNacimiento" class="sr-only">Día</label>
+          <select
+            id="diaNacimiento"
+            formControlName="diaNacimiento"
+            class="form-select"
+            [class.is-invalid]="fechaCampoInvalido('diaNacimiento')"
+          >
+            <option value="" disabled>Día</option>
+            @for (dia of dias; track dia) {
+              <option [value]="dia">{{ dia }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Mes -->
+        <div>
+          <label for="mesNacimiento" class="sr-only">Mes</label>
+          <select
+            id="mesNacimiento"
+            formControlName="mesNacimiento"
+            class="form-select"
+            [class.is-invalid]="fechaCampoInvalido('mesNacimiento')"
+          >
+            <option value="" disabled>Mes</option>
+            @for (mes of meses; track mes.valor) {
+              <option [value]="mes.valor">{{ mes.nombre }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Año -->
+        <div>
+          <label for="anioNacimiento" class="sr-only">Año</label>
+          <select
+            id="anioNacimiento"
+            formControlName="anioNacimiento"
+            class="form-select"
+            [class.is-invalid]="fechaCampoInvalido('anioNacimiento')"
+          >
+            <option value="" disabled>Año</option>
+            @for (anio of anios; track anio) {
+              <option [value]="anio">{{ anio }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      @if (fechaIncompleta()) {
+        <span class="form-error">Por favor completá día, mes y año de nacimiento.</span>
+      } @else if (form.errors?.['fechaInvalida'] && fechaTocada()) {
+        <span class="form-error">La fecha seleccionada no es válida en el calendario.</span>
+      } @else if (form.errors?.['fechaFutura'] && fechaTocada()) {
+        <span class="form-error">La fecha de nacimiento no puede ser en el futuro.</span>
       }
     </div>
 
+    <!-- Foto de Perfil: Zona de arrastre y selección -->
     <div class="form-group">
-      <label for="fotoPerfil" class="form-label">Foto de perfil (opcional)</label>
+      <label class="form-label">Foto de perfil (opcional)</label>
+
+      <!-- Input nativo oculto -->
       <input
-        id="fotoPerfil"
+        #inputArchivo
         type="file"
         accept="image/png, image/jpeg, image/webp"
-        class="form-input file-input"
         (change)="onArchivoSeleccionado($event)"
+        hidden
       />
-      @if (nombreArchivoSeleccionado) {
-        <span class="form-help">Seleccionado: {{ nombreArchivoSeleccionado }}</span>
-      } @else {
-        <span class="form-help">Formatos aceptados: JPG, PNG o WebP.</span>
-      }
+
+      <!-- Dropzone interactiva con soporte drag & drop y clic -->
+      <div
+        class="dropzone"
+        [class.is-dragging]="estaArrastrando()"
+        [class.has-preview]="!!previewUrl()"
+        (click)="inputArchivo.click()"
+        (keydown.enter)="inputArchivo.click()"
+        (keydown.space)="inputArchivo.click(); $event.preventDefault()"
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+        role="button"
+        tabindex="0"
+        aria-label="Subir o arrastrar foto de perfil"
+      >
+        @if (previewUrl(); as url) {
+          <div class="dropzone-preview-box">
+            <img [src]="url" alt="Vista previa de perfil" class="dropzone-preview-img" />
+            <div class="dropzone-preview-info">
+              <span class="preview-filename">{{ nombreArchivoSeleccionado }}</span>
+              <span class="preview-change-hint">Clic o arrastrá para cambiar</span>
+            </div>
+            <button
+              type="button"
+              class="btn-quitar-foto"
+              (click)="quitarFoto($event, inputArchivo)"
+              title="Quitar foto"
+              aria-label="Quitar foto seleccionada"
+            >
+              ✕
+            </button>
+          </div>
+        } @else {
+          <div class="dropzone-content">
+            <img
+              ngSrc="/imagenes/camara.png"
+              width="32"
+              height="32"
+              priority
+              alt=""
+              class="brand-logo"
+            />
+            <div class="dropzone-text">
+              <span class="dropzone-prompt"><strong>Elegí una foto</strong> o arrastrala acá</span>
+              <span class="dropzone-hint">JPG, PNG o WebP (hasta 5MB)</span>
+            </div>
+          </div>
+        }
+      </div>
     </div>
   </div>
 
   <!-- Campo opcional: Descripción / Bio -->
   <div class="form-group">
-    <label for="descripcion" class="form-label">Sobre vos y tus mascotas (opcional)</label>
+    <div class="form-label-row">
+      <label for="descripcion" class="form-label">Sobre vos y tus mascotas (opcional)</label>
+      <span
+        class="char-counter"
+        [class.char-counter-danger]="descripcionExcedida"
+        [class.char-counter-warning]="descripcionLongitud > 130 && !descripcionExcedida"
+        aria-live="polite"
+      >
+        {{ descripcionLongitud }} / {{ MAX_DESCRIPCION }}
+      </span>
+    </div>
     <textarea
       id="descripcion"
       formControlName="descripcion"
       class="form-textarea"
+      [class.is-invalid]="descripcionExcedida"
       rows="2"
       placeholder="Contanos qué mascotas tenés o cuáles son tus animales favoritos..."
     ></textarea>
+    @if (descripcionExcedida) {
+      <span class="form-error">
+        La descripción supera el límite permitido por {{ descripcionLongitud - MAX_DESCRIPCION }} caracteres (máximo {{ MAX_DESCRIPCION }}).
+      </span>
+    }
   </div>
 
   <!-- Selector exclusivo de Administrador (para reutilizar en Sprint 4) -->
@@ -185,11 +296,18 @@
       [disabled]="form.invalid || cargando()"
     >
       @if (cargando()) {
-        <span>Creando cuenta... ⏳</span>
+        <span class="btn-loading-content">
+          <img
+            src="/imagenes/patas.png"
+            alt=""
+            class="spinner-patas"
+            aria-hidden="true"
+          />
+          <span>Creando cuenta...</span>
+        </span>
       } @else {
-        <span>{{ esAdminCreando() ? 'Crear Usuario' : 'Completar Registro' }} 🐾</span>
+        <span>{{ esAdminCreando() ? 'Crear Usuario' : 'Completar Registro' }}</span>
       }
     </button>
   </div>
 </form>
-
